@@ -1,5 +1,5 @@
 # Crypto Liquidity Regime Detection
-Detect early crypto liquidity regime shifts using trade-level microstructure signals and DuckDB-powered analytics.
+Detect early crypto liquidity regime shifts using **trade-level microstructure signals, volume imbalances and DuckDB-powered analytics.**
 
 **Author:** Lee Zhao Jun  
 **Repository:** [crypto-liquidity-regime-shift-detection-engine](https://github.com/ZhaoJunLee/Crypto-Liquidity-Regime-Shift-Detection-Engine/tree/main)  
@@ -10,7 +10,7 @@ Detect early crypto liquidity regime shifts using trade-level microstructure sig
 ## Project Overview
 
 This project implements a **framework for detecting directional liquidity regimes in cryptocurrency markets** using **[open-source aggregated trade data from Binance](https://data.binance.vision/?prefix=data/spot/daily/aggTrades/)**. 
-It focuses on identifying **buy/sell imbalance pressure and volume bursts** as indicators of potential buying and selling opportunities.  
+It focuses on identifying **buy/sell imbalance pressure and volume bursts** that may *precede* directional price movement.  
 
 The methodology is inspired by professional trading research on **market microstructure and liquidity efficiency**, and is designed to help analysts or quants spot **liquidity-driven events** that can precede short-term market trends.
 
@@ -63,6 +63,24 @@ pip install -r requirements.txt
 3. Optional: Execute SQL scripts in sql/ to reproduce steps in DuckDB.
 
 ---
+## Methodology Overview
+
+Liquidity regimes are detected through a combination of:
+
+1. **Directional Imbalance**
+- Buy vs sell aggressor volume normalized by rolling Z-scores
+2. **Imbalance Density**
+- Persistence of aggressive flows over short horizons
+3. **Volume Pressure**
+- Cumulative excess volume relative to recent baselines
+4. **Regime Confirmation**
+- Signals trigger only when both directional imbalance and volume pressure are statistically significant
+
+This multi-layer approach helps to filter:
+- Low-volume fake breakouts
+- High-volume absorptions without directional intent
+
+---
 
 ## Configuration
 
@@ -75,7 +93,7 @@ pip install -r requirements.txt
 | | `Z_WINDOW` | 288 | Rolling window for Z-score baselines. |
 | | `DENSITY_WINDOW` | 12 | Window for imbalance density (~1 hour). |
 | | `VOL_PRESSURE_WINDOW`| 288 | Window for cumulative volume pressure. |
-| **Thresholds**| `IMBALANCE_DENSITY_THRESHOLD` | 0.5 | Min % of aggressive bars required for a signal. |
+| **Thresholds**| `IMBALANCE_DENSITY_THRESHOLD` | 0.5 | Min proportion of bars with statistically significant imbalance required to confirm pressure. |
 | | `Z_SCORE_THRESHOLD` | 1.0 | Statistical significance required for "Pressure." |
 
 ---
@@ -85,6 +103,9 @@ pip install -r requirements.txt
 - Liquidity Features: imbalance, vol_burst, illiquidity.
 - Regime Signals: pressure_signal (buy, sell, none) with pressure_strength.
 - Visualization Example: ![BTC Liquidity Pressure](figures/liquidity_pressure_example.png)
+Green (buy) and red (sell) markers indicate periods of statistically significant liquidity pressure, 
+with color intensity reflecting the strength of the detected regime.
+
 
 ---
 
