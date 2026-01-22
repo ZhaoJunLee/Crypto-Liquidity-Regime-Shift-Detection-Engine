@@ -35,6 +35,7 @@ Key objectives:
 
 ## Installation
 
+
 ```bash
 git clone https://github.com/<your-username>/crypto-liquidity-regime-detection.git
 cd crypto-liquidity-regime-detection
@@ -42,10 +43,11 @@ python -m venv venv
 source venv/bin/activate      # Linux/macOS
 # venv\Scripts\activate      # Windows
 pip install -r requirements.txt
-
+```
 ---
 
 ## Usage
+
 1. Place raw trade data .zip files in: data/raw/<SYMBOL>/
 2. Run the notebook crypto_liquidity_regime.ipynb:
 - Unzips and processes raw CSV files to Parquet.
