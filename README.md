@@ -43,6 +43,8 @@ source venv/bin/activate      # Linux/macOS
 # venv\Scripts\activate      # Windows
 pip install -r requirements.txt
 
+---
+
 ## Usage
 1. Place raw trade data .zip files in: data/raw/<SYMBOL>/
 2. Run the notebook crypto_liquidity_regime.ipynb:
@@ -51,6 +53,8 @@ pip install -r requirements.txt
 - Detects buy/sell pressure events.
 - Produces plots of price and detected events (saved in figures/).
 3. Optional: Execute SQL scripts in sql/ to reproduce steps in DuckDB.
+
+---
 
 ## Configuration
 SYMBOL = "AXS"
@@ -69,6 +73,8 @@ Z_SCORE_THRESHOLD = 1.0
 - DENSITY_WINDOW: Number of bars to compute rolling imbalance density (~1 hour for 5-min bars).
 - VOL_PRESSURE_WINDOW: Rolling window to compute cumulative volume pressure.
 - IMBALANCE_DENSITY_THRESHOLD and Z_SCORE_THRESHOLD: Signal detection thresholds.
+
+---
 
 ## Output
 - OHLCV Bars: open, high, low, close, volume, buy_volume, sell_volume.
